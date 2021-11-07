@@ -3,7 +3,6 @@
 Multipath TCP in SDN
 ===
 
-
 ## Environment setup
 
 Following are the requirements to be setup before running this project
@@ -15,7 +14,7 @@ Following are the requirements to be setup before running this project
 
 Code Usage
 ---
-1. Clone this repository
+1. Clone [this](https://github.com/PSIB0T/Multipath-Routing) repository
 2. Start the controller by
 `ryu-manager --observe-links controller_multipath.py`
 3. Start one of the topologies by
@@ -41,6 +40,10 @@ Weight calculation is done using the following equation
 <img src="https://latex.codecogs.com/png.image?\dpi{110}&space;1&space;-&space;\frac{pw(p)}{\sum_{i=0}^npw(i)}&space;*&space;10" title="1 - \frac{pw(p)}{\sum_{i=0}^npw(i)} * 10" />
 </center>
 
+
+Where
+- pw\(p\) is the path weight/cost (uses OSPF cost in previous step)
+- n is the total number of paths available.
 #### Flow dump
 ![flow dump](https://github.com/PSIB0T/Multipath-Routing/blob/main/Screenshot/flow_dump_s1.png?raw=true)
 
@@ -58,6 +61,10 @@ Controller generates a new flow table entry whose action corresponds to a group 
 ![Host 2](https://github.com/PSIB0T/Multipath-Routing/blob/main/Screenshot/host2.png?raw=true)
 
 
+Now we are testing the capabilities of multipath routing by establishing parallel TCP connections between h1 and h2. In this case, the number of parallel connections is 5. 
+
+
 #### Port dump
 ![Run commands](https://github.com/PSIB0T/Multipath-Routing/blob/main/Screenshot/mininet_interface.png?raw=true)
 
+By examining the ports of s1 and s2, we can see that the flow is mostly directed to ports s3 and s2 where the weights are more (7) in comparison to s1 (6). Similarly in the receiver side, port 3 is connected to h2 while packets are being received from 1,2 and 4. rx of port 4 is lesser compared to 1 and 2
